@@ -5,3 +5,5 @@ target
 /RUNNING_PID
 
 .env
+.docker-volumes
+null

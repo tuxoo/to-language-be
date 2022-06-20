@@ -7,16 +7,16 @@ import com.mohiva.play.silhouette.impl.providers.CredentialsProvider
 import model.dto._
 import model.entity.User
 import play.api.i18n.Lang
-import play.api.libs.json.{JsString, Json, OFormat}
+import play.api.libs.json.{ JsString, Json, OFormat }
 import play.api.mvc._
-import utils.{JWTEnvironment, WithProvider}
+import utils.{ JWTEnvironment, WithProvider }
 
 import java.util.UUID
 import javax.inject._
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ ExecutionContext, Future }
 import scala.language.postfixOps
 
-class UserController @Inject()(components: SilhouetteControllerComponents)(implicit ex: ExecutionContext) extends SilhouetteController(components) {
+class UserController @Inject() (components: SilhouetteControllerComponents)(implicit ex: ExecutionContext) extends SilhouetteController(components) {
 
   implicit val userFormat: OFormat[IdentityType] = Json.format[User]
 
@@ -68,18 +68,34 @@ class UserController @Inject()(components: SilhouetteControllerComponents)(impli
               } yield {
                 Ok(Json.toJson(TokenDTO(token)))
               }
-            case None => Future.successful(BadRequest(JsString(messagesApi("could.not.find.user"))))
+            case None => Future.successful(NotFound(JsString(messagesApi("could.not.find.user"))))
           }
         }.recover {
           case _: ProviderException => BadRequest(JsString(messagesApi("invalid.credentials")))
         }
-      case None => Future.successful(BadRequest(JsString(messagesApi("could.not.find.user"))))
+      case None => Future.successful(NotFound(JsString(messagesApi("could.not.find.user"))))
     }
   }
 
   def getUserProfile: Action[AnyContent] = SecuredAction(WithProvider[AuthType](CredentialsProvider.ID)).async {
-    _: SecuredRequest[JWTEnvironment, AnyContent] =>
+    request: SecuredRequest[JWTEnvironment, AnyContent] =>
       implicit val lang: Lang = supportedLangs.availables.head
-      Future.successful(BadRequest(JsString(messagesApi("invalid.body"))))
+      val id = request.identity.id
+      userService.getById(id).flatMap {
+        case Some(user) => Future.successful(Ok(Json.toJson(user)))
+        case None => Future.successful(InternalServerError(JsString(messagesApi("illegal user"))))
+      }
+  }
+
+  def getUserByEmail(email: String): Action[AnyContent] = SecuredAction(WithProvider[AuthType](CredentialsProvider.ID)).async {
+    implicit val lang: Lang = supportedLangs.availables.head
+    if (email.isEmpty) {
+      Future.successful(BadRequest(JsString(messagesApi("code is empy"))))
+    } else {
+      userService.getByLoginEmail(email).flatMap {
+        case Some(user) => Future.successful(Ok(Json.toJson(user)))
+        case None => Future.successful(NotFound(JsString(messagesApi("could.not.find.user"))))
+      }
+    }
   }
 }
