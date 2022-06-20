@@ -1,17 +1,22 @@
 package controllers
 
+import com.mohiva.play.silhouette.api.actions.SecuredRequest
+import com.mohiva.play.silhouette.api.exceptions.ProviderException
+import com.mohiva.play.silhouette.api.util.Credentials
+import com.mohiva.play.silhouette.impl.providers.CredentialsProvider
 import model.dto._
 import model.entity.User
 import play.api.i18n.Lang
-import play.api.libs.json.{ JsString, Json, OFormat }
+import play.api.libs.json.{JsString, Json, OFormat}
 import play.api.mvc._
+import utils.{JWTEnvironment, WithProvider}
 
 import java.util.UUID
 import javax.inject._
-import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.{ExecutionContext, Future}
 import scala.language.postfixOps
 
-class UserController @Inject() (components: SilhouetteControllerComponents)(implicit ex: ExecutionContext) extends SilhouetteController(components) {
+class UserController @Inject()(components: SilhouetteControllerComponents)(implicit ex: ExecutionContext) extends SilhouetteController(components) {
 
   implicit val userFormat: OFormat[IdentityType] = Json.format[User]
 
@@ -49,4 +54,32 @@ class UserController @Inject() (components: SilhouetteControllerComponents)(impl
     }
   }
 
+  def signIn: Action[AnyContent] = UnsecuredAction.async { implicit request: Request[AnyContent] =>
+    implicit val lang: Lang = supportedLangs.availables.head
+    request.body.asJson.flatMap(_.asOpt[SignInDTO]) match {
+      case Some(signInModel) =>
+        val credentials = Credentials(signInModel.email, signInModel.password)
+        credentialsProvider.authenticate(credentials).flatMap { loginInfo =>
+          userService.retrieve(loginInfo).flatMap {
+            case Some(_) =>
+              for {
+                authenticator <- authenticatorService.create(loginInfo)
+                token <- authenticatorService.init(authenticator)
+              } yield {
+                Ok(Json.toJson(TokenDTO(token)))
+              }
+            case None => Future.successful(BadRequest(JsString(messagesApi("could.not.find.user"))))
+          }
+        }.recover {
+          case _: ProviderException => BadRequest(JsString(messagesApi("invalid.credentials")))
+        }
+      case None => Future.successful(BadRequest(JsString(messagesApi("could.not.find.user"))))
+    }
+  }
+
+  def getUserProfile: Action[AnyContent] = SecuredAction(WithProvider[AuthType](CredentialsProvider.ID)).async {
+    _: SecuredRequest[JWTEnvironment, AnyContent] =>
+      implicit val lang: Lang = supportedLangs.availables.head
+      Future.successful(BadRequest(JsString(messagesApi("invalid.body"))))
+  }
 }

@@ -18,7 +18,7 @@ case class User(
   role: String,
   isEnabled: Boolean = false) extends Identity {
 
-  def loginInfo = LoginInfo(CredentialsProvider.ID, loginEmail)
+  def loginInfo: LoginInfo = LoginInfo(CredentialsProvider.ID, loginEmail)
 
-  def passwordInfo = PasswordInfo(BCryptSha256PasswordHasher.ID, passwordHash)
+  def passwordInfo: PasswordInfo = PasswordInfo(BCryptSha256PasswordHasher.ID, passwordHash)
 }
