@@ -11,3 +11,4 @@ CREATE TABLE "user"
     role          varchar(255) default 'USER',
     is_enabled    boolean      default false
 );
+
