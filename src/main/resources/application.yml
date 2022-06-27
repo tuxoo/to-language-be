@@ -1,0 +1,17 @@
+debug: ${SPRING_DEBUG:false}
+server:
+  port: ${APP_PORT:9000}
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 25
+      minimum-idle: 2
+      max-lifetime: 120000
+      idle-timeout: 300000
+    url: ${POSTGRES_URL}?currentSchema=${POSTGRES_SCHEMA:tolanguage}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  application:
+    name: tolanguage
