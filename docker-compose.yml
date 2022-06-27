@@ -23,7 +23,7 @@ services:
   liquibase-tolanguage:
     container_name: liquibase-tolanguage
     image: liquibase/liquibase:${LIQUIBASE_VERSION}
-#    restart: on-failure
+    restart: on-failure
     command: --defaultsFile=liquibase.properties update
     depends_on:
       - postgres-tolanguage
