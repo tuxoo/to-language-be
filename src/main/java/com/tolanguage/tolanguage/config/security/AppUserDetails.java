@@ -16,7 +16,7 @@ public class AppUserDetails implements UserDetails {
     private Boolean isEnabled;
     private Collection<? extends GrantedAuthority> grantedAuthorities;
 
-    public static AppUserDetails toKbaseUserDetails(User user) {
+    public static AppUserDetails toAppUserDetails(User user) {
         AppUserDetails userDetails = new AppUserDetails();
         userDetails.id = user.id();
         userDetails.login = user.loginEmail();

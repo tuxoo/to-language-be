@@ -20,11 +20,11 @@ public class AppUserDetailsService implements UserDetailsService {
     @Override
     public AppUserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userService.getByEmail(email);
-        return AppUserDetails.toKbaseUserDetails(user);
+        return AppUserDetails.toAppUserDetails(user);
     }
 
     public AppUserDetails loadUserById(UUID id) throws UsernameNotFoundException {
         User user = userService.getById(id);
-        return AppUserDetails.toKbaseUserDetails(user);
+        return AppUserDetails.toAppUserDetails(user);
     }
 }
