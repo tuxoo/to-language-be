@@ -1,8 +1,9 @@
 package com.tolanguage.tolanguage.config;
 
+import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.autoconfigure.jdbc.JdbcProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,10 +14,17 @@ import javax.sql.DataSource;
 @Configuration(proxyBeanMethods = false)
 public class PostgresConfig {
 
+//    @Bean
+//    @ConfigurationProperties("spring.datasource")
+//    public DataSourceProperties myDataSource() {
+//        return new DataSourceProperties();
+//    }
+
     @Bean
-    @ConfigurationProperties("spring.datasource")
-    public DataSource myDataSource() {
-        return DataSourceBuilder.create().build();
+    @ConfigurationProperties("spring.datasource.hikari")
+    public HikariDataSource dataSource(DataSourceProperties properties) {
+        return properties.initializeDataSourceBuilder().type(HikariDataSource.class)
+                .build();
     }
 
     @Bean

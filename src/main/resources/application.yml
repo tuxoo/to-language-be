@@ -1,6 +1,10 @@
 debug: ${SPRING_DEBUG:false}
 server:
   port: ${APP_PORT:9000}
+  forward-headers-strategy: framework
+  tomcat:
+    threads:
+      max: 5000
 
 spring:
   datasource:
@@ -15,3 +19,14 @@ spring:
     password: ${POSTGRES_PASSWORD}
   application:
     name: tolanguage
+
+cache:
+  user-maximum-size: 100000
+  user-expired-time-hours: 4
+
+app:
+  url: ${APP_URL}
+  api-path: ${API_PATH:/}
+  salt: ${HASH_SALT}
+  jwt-signing-key: ${JWT_SIGNING_KEY}
+  token-ttl: ${TOKEN_TTL:4}
