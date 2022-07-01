@@ -1,5 +1,9 @@
 export default {
     port: 1337,
     host: 'localhost',
-    dbUri: 'postgresql://localhost:5432/tolanguage?currentSchema=tolanguage'
+    dbPort: 5432,
+    dbUser: 'tolanguage',
+    dbPassword: 'qwerty',
+    db: 'tolanguage',
+    saltWorkFactor: 10
 }

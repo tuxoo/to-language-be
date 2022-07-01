@@ -24,13 +24,13 @@ services:
     restart: on-failure
     command: --defaultsFile=liquibase.properties update
     depends_on:
-      - postgres-idler
+      - postgres-to-language
     volumes:
       - ./db/:/liquibase/changelog/
       - ./db/:/liquibase/classpath/
       - ./db/liquibase.properties:/liquibase/liquibase.properties
     networks:
-      idler-net:
+      to-language-net:
         ipv4_address: 172.28.1.2
 
 networks:
