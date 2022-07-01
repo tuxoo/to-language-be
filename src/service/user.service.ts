@@ -1,12 +1,14 @@
 import bcrypt from "bcrypt";
-import {save} from "../repository/user.repository";
-import {SignUpDTO, User, Role} from "../model/user.model";
+import {findByEmail, save} from "../repository/user.repository";
+import {SignUpDTO, User, Role, VerifyDTO} from "../model/user.model";
 import config from "config";
 
 
 export async function signUp(signUpDTO: SignUpDTO) {
-    const salt = await bcrypt.genSalt(config.get("saltWorkFactor"));
-    const passwordHash = await bcrypt.hash(signUpDTO.password, salt)
+    const crypto = require('crypto');
+    const hasher = crypto.createHash('sha1');
+    hasher.update(signUpDTO.password)
+    const passwordHash = hasher.digest('hex')
 
     const user: User = {
         name: signUpDTO.name,
@@ -18,4 +20,9 @@ export async function signUp(signUpDTO: SignUpDTO) {
     }
 
     await save(user)
+}
+
+export async function verifyUser(verifyDTO: VerifyDTO) {
+
+    const user = await findByEmail(verifyDTO.email, false)
 }

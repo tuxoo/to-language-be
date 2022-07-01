@@ -4,6 +4,5 @@ export default {
     dbPort: 5432,
     dbUser: 'tolanguage',
     dbPassword: 'qwerty',
-    db: 'tolanguage',
-    saltWorkFactor: 10
+    db: 'tolanguage'
 }
