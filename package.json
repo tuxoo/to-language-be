@@ -2,9 +2,11 @@
   "name": "to-language",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "dev": "nodemon --config nodemon.json src/app.ts"
+    "build": "tsc -p .",
+    "dev": "nodemon --config nodemon.json src/app.ts",
+    "start": "NODE_PATH=./src node dist/app.js"
   },
   "repository": {
     "type": "git",
@@ -42,9 +44,12 @@
     "lodash": "^4.17.21",
     "nanoid": "^4.0.0",
     "node": "^18.4.0",
+    "nodemon": "^2.0.18",
     "pg": "^8.7.3",
     "pino": "^8.1.0",
     "pino-pretty": "^8.1.0",
+    "rimraf": "^3.0.2",
+    "ts-node-dev": "^2.0.0",
     "uuid": "^8.3.2",
     "yup": "^0.32.11"
   }

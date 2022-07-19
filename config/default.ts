@@ -1,5 +1,5 @@
 export default {
-    port: 1337,
+    port: 9000,
     host: 'localhost',
     dbPort: 5432,
     dbUser: 'tolanguage',

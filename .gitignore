@@ -35,3 +35,4 @@ build/
 node_modules
 .env
 .docker-volumes
+*.js

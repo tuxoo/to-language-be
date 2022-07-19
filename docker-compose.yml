@@ -33,6 +33,20 @@ services:
       to-language-net:
         ipv4_address: 172.28.1.2
 
+  app-to-language:
+    container_name: app-to-language
+    build: ./
+#    restart: unless-stopped
+#    env_file:
+#      - .env
+    ports:
+      - "9000:9000"
+    depends_on:
+      - postgres-to-language
+    networks:
+      to-language-net:
+        ipv4_address: 172.28.1.3
+
 networks:
   to-language-net:
     ipam:

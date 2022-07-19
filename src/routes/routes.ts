@@ -5,6 +5,6 @@ export default function (app: Express) {
 
     app.get('/ping', (req: Request, res: Response) => res.send('pong'))
 
-    app.post(`/sign-up`, signUpHandler)
-    app.post(`/verify`, verifyHandler)
+    app.post(`/api/v1/user/sign-up`, signUpHandler)
+    app.post(`/api/v1/user/verify`, verifyHandler)
 }

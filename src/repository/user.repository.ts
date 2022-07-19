@@ -17,6 +17,19 @@ export async function save(user: User) {
     }
 }
 
+export async function updateById(id: string) {
+    const query = `UPDATE ${userTable} SET is_enabled=true WHERE id=$1`
+
+    try {
+        await pool.query(
+            query,
+            [id]
+        )
+    } catch (e) {
+        console.error("all bad")
+    }
+}
+
 export async function findByEmail(email: string, isEnabled: Boolean) {
     const query = `SELECT id, name, login_email, registered_at, visited_at, role, is_enabled
                    FROM ${userTable}

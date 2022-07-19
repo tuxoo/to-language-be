@@ -5,9 +5,7 @@ import {SignUpDTO, VerifyDTO} from "../model/user.model";
 export async function signUpHandler(req: Request, res: Response) {
     try {
         const signUpDTO = req.body as SignUpDTO
-
         await signUp(signUpDTO)
-
         return res.sendStatus(201)
     } catch (e) {
         return res.status(409)
@@ -19,6 +17,8 @@ export async function verifyHandler(req: Request, res: Response) {
         const verifyDTO = req.body as VerifyDTO
 
         await verifyUser(verifyDTO)
+
+        return res.sendStatus(200)
     } catch (e) {
         return res.status(409)
     }
