@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 
 @Configuration
-@EnableMongoRepositories
+@EnableMongoRepositories(basePackages = ["com.tolanguage.repository"])
 class MongoConfig(
     private val property: MongoProperty
 ) : AbstractMongoClientConfiguration() {

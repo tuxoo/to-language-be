@@ -11,3 +11,10 @@ spring:
       username: ${MONGO_INITDB_ROOT_USERNAME}
       password: ${MONGO_INITDB_ROOT_PASSWORD}
       database: ${MONGO_INITDB_DATABASE}
+
+application:
+  url: ${APP_URL}
+  api-path: ${API_PATH:/}
+  hash-salt: ${HASH_SALT}
+  jwt-signing-key: ${JWT_SIGNING_KEY}
+  access-token-ttl: ${TOKEN_TTL:15m}
