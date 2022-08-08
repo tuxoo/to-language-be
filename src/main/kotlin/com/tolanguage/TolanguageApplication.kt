@@ -1,13 +1,17 @@
 package com.tolanguage
 
 import com.tolanguage.config.property.ApplicationProperty
+import com.tolanguage.config.property.CacheProperty
+import com.tolanguage.config.property.SessionProperty
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
 @EnableConfigurationProperties(
-    ApplicationProperty::class
+    ApplicationProperty::class,
+    CacheProperty::class,
+    SessionProperty::class
 )
 class TolanguageApplication
 

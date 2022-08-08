@@ -19,3 +19,8 @@ application:
   hash-salt: ${HASH_SALT}
   jwt-signing-key: ${JWT_SIGNING_KEY}
   access-token-ttl: ${TOKEN_TTL:15m}
+  session:
+    max: ${SESSION_MAX:3}
+  cache:
+    user-maximum-size: 1000
+    user-expired-time: 1h

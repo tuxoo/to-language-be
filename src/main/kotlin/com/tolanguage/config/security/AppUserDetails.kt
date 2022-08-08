@@ -1,6 +1,6 @@
 package com.tolanguage.config.security
 
-import com.tolanguage.model.User
+import com.tolanguage.model.entity.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -10,7 +10,6 @@ class AppUserDetails(
     private val login: String,
     private val grantedAuthorities: MutableCollection<out GrantedAuthority>
 ) : UserDetails {
-
     companion object {
         fun toAppUserDetails(user: User) =
             with(user)

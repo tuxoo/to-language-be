@@ -1,17 +1,24 @@
 package com.tolanguage.serivce
 
-import com.tolanguage.model.User
+import com.github.benmanes.caffeine.cache.Cache
+import com.tolanguage.config.security.JwtProvider
+import com.tolanguage.model.dto.SignInDTO
 import com.tolanguage.model.dto.SignUpDTO
+import com.tolanguage.model.dto.TokenContainer
+import com.tolanguage.model.entity.User
 import com.tolanguage.repository.UserRepository
 import com.tolanguage.util.HashUtils
 import org.springframework.stereotype.Service
 
 @Service
 class UserService(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val jwtProvider: JwtProvider,
+    private val userCache: Cache<String, User>,
+    private val sessionService: SessionService
 ) {
 
-    fun signUp(signUpDTO: SignUpDTO) =
+    fun signUp(signUpDTO: SignUpDTO): Unit =
         User(
             firstName = signUpDTO.firstName,
             lastName = signUpDTO.lastName,
@@ -20,4 +27,28 @@ class UserService(
         ).run {
             userRepository.insert(this)
         }
+
+    fun signIn(signInDTO: SignInDTO): TokenContainer {
+        val user = userRepository.findByEmailAndPasswordHash(signInDTO.email, HashUtils.hashSHA1(signInDTO.password))
+            ?: error("")
+
+        val accessToken = jwtProvider.generateToken(user.id.toString())
+
+        val refreshToken = sessionService.createSession(user)
+
+        userCache.put(user.id.toString(), user)
+
+        return TokenContainer(
+            accessToken,
+            refreshToken
+        )
+    }
+
+    fun getUserById(id: String) =
+        userRepository.findOneById(id)
+            ?: error("")
+
+    fun getUserByEmail(email: String) =
+        userRepository.findByEmail(email)
+            ?: error("")
 }
