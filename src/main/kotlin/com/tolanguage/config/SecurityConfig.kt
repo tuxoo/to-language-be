@@ -15,7 +15,7 @@ class SecurityConfig {
         httpSecurity
             .csrf().disable()
             .authorizeRequests()
-            .antMatchers("/v1/user/sign-up").permitAll()
+            .antMatchers("/v1/users/sign-up").permitAll()
         return httpSecurity.build();
     }
 }

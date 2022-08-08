@@ -1,32 +1,29 @@
 package com.tolanguage.config.security
 
-import com.tolanguage.model.dto.UserDto
+import com.tolanguage.model.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
-import java.util.*
 
 class AppUserDetails(
-    private val id: UUID,
+    private val id: String,
     private val login: String,
-    private val isEnabled: Boolean,
     private val grantedAuthorities: MutableCollection<out GrantedAuthority>
 ) : UserDetails {
 
     companion object {
-        fun toAppUserDetails(user: UserDto) =
+        fun toAppUserDetails(user: User) =
             with(user)
             {
                 AppUserDetails(
-                    id = id,
-                    login = loginEmail,
-                    isEnabled = isEnabled,
+                    id = user.id.toString(),
+                    login = user.email,
                     grantedAuthorities = mutableListOf(SimpleGrantedAuthority(user.role.name))
                 )
             }
     }
 
-    fun getId(): UUID = id
+    fun getId(): String = id
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> = grantedAuthorities
 
@@ -40,5 +37,5 @@ class AppUserDetails(
 
     override fun isCredentialsNonExpired(): Boolean = true
 
-    override fun isEnabled(): Boolean = isEnabled
+    override fun isEnabled(): Boolean = true
 }

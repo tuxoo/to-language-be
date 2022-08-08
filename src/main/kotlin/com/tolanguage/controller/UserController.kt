@@ -1,29 +1,19 @@
 package com.tolanguage.controller
 
-import com.tolanguage.model.User
-import com.tolanguage.repository.UserRepository
+import com.tolanguage.model.dto.SignUpDTO
+import com.tolanguage.serivce.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
-import java.time.Instant
 
 @RestController
 @RequestMapping("/v1/users")
 class UserController(
-    private val userRepository: UserRepository
+    private val userService: UserService
 ) {
 
     @PostMapping("/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    suspend fun signUp(): String {
-        val user = User(
-            firstName = "eugen",
-            lastName = "krivtsov",
-            email = "kia@ya.ru",
-            passwordHash = "asdf",
-            registeredAt = Instant.now(),
-            visitedAt = Instant.now()
-        )
-//        userRepository.save(user);
-        return "hello"
+    suspend fun signUp(@RequestBody signUpDTO: SignUpDTO): Unit {
+        userService.signUp(signUpDTO);
     }
 }

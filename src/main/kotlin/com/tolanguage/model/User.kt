@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.Instant
 
-@Document(collation = "users")
+@Document(collation = "user")
 data class User(
 
     @Id
@@ -16,7 +16,7 @@ data class User(
     val lastName: String,
     val email: String,
     val passwordHash: String,
-    val registeredAt: Instant,
-    val visitedAt: Instant,
+    val registeredAt: Instant = Instant.now(),
+    val visitedAt: Instant = Instant.now(),
     val role: Role = Role.USER,
 )
