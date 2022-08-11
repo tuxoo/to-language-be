@@ -1,5 +1,6 @@
 package com.tolanguage.model.entity
 
+import com.tolanguage.model.enums.Language
 import com.tolanguage.model.enums.Role
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
@@ -22,5 +23,8 @@ data class User(
     val isActivated: Boolean = false,
 
     @DBRef
-    val sessions: List<Session> = emptyList()
+    val sessions: List<Session> = emptyList(),
+
+    @DBRef
+    val notes: List<Course> = emptyList(),
 )

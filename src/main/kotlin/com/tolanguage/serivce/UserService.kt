@@ -18,7 +18,7 @@ class UserService(
     private val sessionService: SessionService
 ) {
 
-    fun signUp(signUpDTO: SignUpDTO): Unit =
+    fun signUp(signUpDTO: SignUpDTO): TokenContainer =
         User(
             firstName = signUpDTO.firstName,
             lastName = signUpDTO.lastName,
@@ -26,6 +26,10 @@ class UserService(
             passwordHash = HashUtils.hashSHA1(signUpDTO.password)
         ).run {
             userRepository.insert(this)
+        }.run {
+            signIn(
+                signInDTO = SignInDTO(signUpDTO.email, signUpDTO.password)
+            )
         }
 
     fun signIn(signInDTO: SignInDTO): TokenContainer {

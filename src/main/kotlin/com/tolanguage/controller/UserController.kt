@@ -15,7 +15,7 @@ class UserController(
 
     @PostMapping("/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    suspend fun signUp(@RequestBody signUpDTO: SignUpDTO): Unit =
+    suspend fun signUp(@RequestBody signUpDTO: SignUpDTO): TokenContainer =
         userService.signUp(signUpDTO)
 
     @PostMapping("/sign-in")
