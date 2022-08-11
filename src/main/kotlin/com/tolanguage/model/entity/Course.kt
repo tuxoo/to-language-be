@@ -14,7 +14,7 @@ data class Course(
     val id: ObjectId = ObjectId.get(),
     val language: Language,
     val description: String,
-    val startedAt: Instant,
+    val startedAt: Instant = Instant.now(),
 
     @DBRef
     val user: User

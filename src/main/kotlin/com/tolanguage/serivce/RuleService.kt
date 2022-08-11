@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class RuleService(
-    val ruleRepository: RuleRepository
+    val ruleRepository: RuleRepository,
+    val courseService: CourseService
 ) {
+
+
 }

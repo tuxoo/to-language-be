@@ -6,14 +6,14 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/v1/rules")
+@RequestMapping("/v1/courses/{courseId}/rules")
 class RuleController(
     val ruleService: RuleService
 ) {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    fun add(ruleFormDto: RuleFormDto) {
+    fun add(@PathVariable courseId: String, @RequestBody ruleFormDto: RuleFormDto) {
 
     }
 

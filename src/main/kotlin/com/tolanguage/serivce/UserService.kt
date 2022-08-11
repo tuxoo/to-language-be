@@ -7,6 +7,7 @@ import com.tolanguage.model.dto.SignUpDTO
 import com.tolanguage.model.dto.TokenContainer
 import com.tolanguage.model.entity.User
 import com.tolanguage.repository.UserRepository
+import com.tolanguage.util.AuthUtils
 import com.tolanguage.util.HashUtils
 import org.springframework.stereotype.Service
 
@@ -55,4 +56,6 @@ class UserService(
     fun getUserByEmail(email: String) =
         userRepository.findByEmail(email)
             ?: error("")
+
+    fun getCurrent() = getUserById(AuthUtils.getCurrentUser().getId())
 }

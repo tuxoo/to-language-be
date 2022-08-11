@@ -2,6 +2,8 @@ package com.tolanguage.controller
 
 import com.tolanguage.model.dto.CourseFormDto
 import com.tolanguage.serivce.CourseService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -13,15 +15,12 @@ class CourseController(
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    fun add(courseFormDto: CourseFormDto) {
+    fun add(@RequestBody courseFormDto: CourseFormDto): Unit = courseService.add(courseFormDto)
 
-    }
 
-//    @ResponseStatus(HttpStatus.OK)
-//    @GetMapping
-//    fun getAll(): Page<CourseFormDto> {
-//        return
-//    }
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    fun getAll(pageable: Pageable): Page<CourseFormDto> = courseService.getPage(pageable)
 
 //    @ResponseStatus(HttpStatus.OK)
 //    @GetMapping("/{id}")
