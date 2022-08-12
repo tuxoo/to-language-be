@@ -35,12 +35,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
-    implementation("org.mapstruct:mapstruct:1.5.2.Final")
     implementation("org.slf4j:slf4j-api:1.7.36")
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.1")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
-
-    kapt("org.mapstruct:mapstruct-processor:1.5.2.Final")
 
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
@@ -48,15 +45,6 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
-}
-
-kapt {
-    arguments {
-        // Set Mapstruct Configuration options here
-        // https://kotlinlang.org/docs/reference/kapt.html#annotation-processor-arguments
-        // https://mapstruct.org/documentation/stable/reference/html/#configuration-options
-        // arg("mapstruct.defaultComponentModel", "spring")
-    }
 }
 
 tasks.withType<KotlinCompile> {

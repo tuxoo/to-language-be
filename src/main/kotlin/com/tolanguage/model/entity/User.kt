@@ -23,8 +23,5 @@ data class User(
     val isActivated: Boolean = false,
 
     @DBRef
-    val sessions: List<Session> = emptyList(),
-
-    @DBRef
     val notes: List<Course> = emptyList(),
 )

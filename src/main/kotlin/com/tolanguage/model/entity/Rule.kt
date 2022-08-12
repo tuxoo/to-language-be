@@ -13,8 +13,5 @@ data class Rule(
     val title: String,
 
     @DBRef
-    val course: Course,
-
-    @DBRef
-    val subRules: List<SubRule>
+    val course: Course
 )

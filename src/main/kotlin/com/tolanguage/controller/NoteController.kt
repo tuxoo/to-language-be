@@ -1,6 +1,7 @@
 package com.tolanguage.controller
 
 import com.tolanguage.model.dto.NoteFormDto
+import com.tolanguage.model.dto.NoteSlimDto
 import com.tolanguage.serivce.NoteService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -20,23 +21,24 @@ class NoteController(
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    fun getAll(pageable: Pageable): Page<NoteFormDto> = noteService.getPage(pageable)
+    fun getPage(@PathVariable("courseId") courseId: String, pageable: Pageable): Page<NoteSlimDto> =
+        noteService.getPage(courseId, pageable)
 
-//    @ResponseStatus(HttpStatus.OK)
-//    @GetMapping("/{id}")
-//    fun getById(@PathVariable("id") id: Long): NoteFormDto {
-//        return
-//    }
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{id}")
+    fun getById(@PathVariable("id") id: String, @PathVariable("courseId") courseId: String): NoteSlimDto =
+        noteService.getDtoById(id, courseId)
 
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{id}")
-    fun edit(@PathVariable("id") id: Long, @RequestBody noteFormDto: NoteFormDto) {
-
-    }
+    fun edit(
+        @PathVariable("id") id: String,
+        @PathVariable("courseId") courseId: String,
+        @RequestBody noteFormDto: NoteFormDto
+    ): NoteSlimDto = noteService.edit(id, courseId, noteFormDto)
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable("id") id: Long) {
-
-    }
+    fun delete(@PathVariable("id") id: String, @PathVariable("courseId") courseId: String) =
+        noteService.deleteById(id, courseId)
 }

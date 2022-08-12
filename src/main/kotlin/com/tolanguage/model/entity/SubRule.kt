@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.Instant
 
-@Document("rule")
+@Document("sub_rule")
 data class SubRule(
 
     @Id
