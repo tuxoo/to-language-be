@@ -3,6 +3,7 @@ package com.tolanguage.serivce
 import com.tolanguage.model.dto.NoteFormDto
 import com.tolanguage.model.dto.NoteSlimDto
 import com.tolanguage.model.entity.Note
+import com.tolanguage.model.exception.EntityNotFoundException
 import com.tolanguage.repository.NoteRepository
 import org.bson.types.ObjectId
 import org.springframework.data.domain.Page
@@ -48,7 +49,8 @@ class NoteService(
         }
 
     fun getById(id: String, courseId: String): Note =
-        noteRepository.findByIdAndCourseId(ObjectId(id), ObjectId(courseId)) ?: error("")
+        noteRepository.findByIdAndCourseId(ObjectId(id), ObjectId(courseId))
+            ?: throw EntityNotFoundException("Note not found by id [$id] and courseId [$courseId]")
 
     fun getDtoById(id: String, courseId: String): NoteSlimDto = toSlimDto(getById(id, courseId))
 

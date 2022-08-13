@@ -11,7 +11,7 @@ class SubRulesService(
     val subRuleRepository: SubRuleRepository
 ) {
 
-    fun saveAll(subRules: List<SubRule>) =
+    fun saveAll(subRules: List<SubRule>): List<SubRule> =
         subRuleRepository.saveAll(subRules)
 
     fun getAllByRuleId(id: ObjectId): List<SubRule> =

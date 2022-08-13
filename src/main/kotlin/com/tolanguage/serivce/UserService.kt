@@ -6,6 +6,7 @@ import com.tolanguage.model.dto.SignInDTO
 import com.tolanguage.model.dto.SignUpDTO
 import com.tolanguage.model.dto.TokenContainer
 import com.tolanguage.model.entity.User
+import com.tolanguage.model.exception.EntityNotFoundException
 import com.tolanguage.repository.UserRepository
 import com.tolanguage.util.AuthUtils
 import com.tolanguage.util.HashUtils
@@ -35,7 +36,7 @@ class UserService(
 
     fun signIn(signInDTO: SignInDTO): TokenContainer {
         val user = userRepository.findByEmailAndPasswordHash(signInDTO.email, HashUtils.hashSHA1(signInDTO.password))
-            ?: error("")
+            ?: throw EntityNotFoundException("User not found by credentials [$signInDTO.email, ${signInDTO.password}]")
 
         val accessToken = jwtProvider.generateToken(user.id.toString())
 
@@ -51,11 +52,11 @@ class UserService(
 
     fun getUserById(id: String) =
         userRepository.findOneById(id)
-            ?: error("")
+            ?: throw EntityNotFoundException("User not found by id [$id]")
 
     fun getUserByEmail(email: String) =
         userRepository.findByEmail(email)
-            ?: error("")
+            ?: throw EntityNotFoundException("User not found by email [$email]")
 
     fun getCurrent() = getUserById(AuthUtils.getCurrentUser().getId())
 }

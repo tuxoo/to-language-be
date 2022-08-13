@@ -1,6 +1,7 @@
 package com.tolanguage.util
 
 import com.tolanguage.config.security.AppUserDetails
+import com.tolanguage.model.exception.AuthorizationException
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import java.util.*
@@ -15,6 +16,6 @@ object AuthUtils {
         .filter(AppUserDetails::class::isInstance)
         .map(AppUserDetails::class::cast)
         .orElseThrow {
-            error("")
+            AuthorizationException("Forbidden user")
         }
 }

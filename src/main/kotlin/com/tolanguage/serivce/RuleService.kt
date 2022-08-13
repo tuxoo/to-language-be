@@ -4,6 +4,7 @@ import com.tolanguage.model.dto.RuleFormDto
 import com.tolanguage.model.dto.RuleSlimDto
 import com.tolanguage.model.entity.Rule
 import com.tolanguage.model.entity.SubRule
+import com.tolanguage.model.exception.EntityNotFoundException
 import com.tolanguage.repository.RuleRepository
 import org.bson.types.ObjectId
 import org.springframework.data.domain.Page
@@ -41,7 +42,8 @@ class RuleService(
         }
 
     fun getById(id: String, courseId: String): Rule =
-        ruleRepository.findByIdAndCourseId(ObjectId(id), ObjectId(courseId)) ?: error("")
+        ruleRepository.findByIdAndCourseId(ObjectId(id), ObjectId(courseId))
+            ?: throw EntityNotFoundException("Rule not found by id [$id] and courseId [$courseId]")
 
     fun getDtoById(id: String, courseId: String): RuleSlimDto =
         toSlimDto(getById(id, courseId))
