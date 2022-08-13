@@ -30,8 +30,12 @@ class JwtProvider(
         parser.parseClaimsJws(token).body.subject
 
     fun validateToken(token: String): Boolean =
-        parser.parseClaimsJws(token).body
-            .run {
-                this.expiration.after(Date.from(Instant.now()))
-            }
+        try {
+            parser.parseClaimsJws(token).body
+                .run {
+                    this.expiration.after(Date.from(Instant.now()))
+                }
+        } catch (e: Exception) {
+            false
+        }
 }

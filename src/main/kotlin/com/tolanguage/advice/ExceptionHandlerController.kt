@@ -1,12 +1,11 @@
 package com.tolanguage.advice
 
 import com.tolanguage.model.error.ErrorResponse
-import com.tolanguage.model.error.ErrorType.AUTHORIZATION_ERROR
-import com.tolanguage.model.error.ErrorType.INTERNAL_ERROR
+import com.tolanguage.model.error.ErrorType.*
 import com.tolanguage.model.exception.ApiException
-import org.springframework.http.HttpStatus.FORBIDDEN
-import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
+import org.springframework.http.HttpStatus.*
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -32,6 +31,20 @@ class ExceptionHandlerController {
                 message = e.errorText
             )
         )
+
+    @ResponseStatus(BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleValidationError(e: MethodArgumentNotValidException): ResponseEntity<ErrorResponse> =
+        e.bindingResult.fieldErrors.map {
+            it.defaultMessage
+        }.run {
+            ResponseEntity.status(BAD_REQUEST).body(
+                ErrorResponse(
+                    errorType = VALIDATION_ERROR,
+                    message = "Validation errors: $this"
+                )
+            )
+        }
 
     @ResponseStatus(FORBIDDEN)
     @ExceptionHandler(AccessDeniedException::class)

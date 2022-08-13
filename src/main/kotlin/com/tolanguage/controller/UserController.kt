@@ -6,6 +6,7 @@ import com.tolanguage.model.dto.TokenContainer
 import com.tolanguage.serivce.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/v1/users")
@@ -15,10 +16,10 @@ class UserController(
 
     @PostMapping("/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    suspend fun signUp(@RequestBody signUpDTO: SignUpDTO): TokenContainer =
+    suspend fun signUp(@Valid @RequestBody signUpDTO: SignUpDTO): TokenContainer =
         userService.signUp(signUpDTO)
 
     @PostMapping("/sign-in")
-    suspend fun signIn(@RequestBody signInDTO: SignInDTO): TokenContainer =
+    suspend fun signIn(@Valid @RequestBody signInDTO: SignInDTO): TokenContainer =
         userService.signIn(signInDTO)
 }

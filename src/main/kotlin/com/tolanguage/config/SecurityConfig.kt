@@ -1,5 +1,7 @@
 package com.tolanguage.config
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.tolanguage.config.security.AppAuthenticationEntryPoint
 import com.tolanguage.config.security.JwtFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -11,7 +13,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-    private val jwtFilter: JwtFilter
+    private val jwtFilter: JwtFilter,
+    private val objectMapper: ObjectMapper
 ) {
 
     private val permittedUris = arrayOf(
@@ -28,6 +31,8 @@ class SecurityConfig(
             .anyRequest().authenticated()
             .and()
             .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .exceptionHandling()
+            .authenticationEntryPoint(AppAuthenticationEntryPoint(objectMapper))
         return httpSecurity.headers().frameOptions().sameOrigin().and().build();
     }
 }
