@@ -50,13 +50,16 @@ class UserService(
         )
     }
 
-    fun getUserById(id: String) =
-        userRepository.findOneById(id)
-            ?: throw EntityNotFoundException("User not found by id [$id]")
+    fun getUserById(id: String): User =
+        userCache.get(id) {
+            userRepository.findOneById(id)
+                ?: throw EntityNotFoundException("User not found by id [$id]")
+        }
 
-    fun getUserByEmail(email: String) =
+
+    fun getUserByEmail(email: String): User =
         userRepository.findByEmail(email)
             ?: throw EntityNotFoundException("User not found by email [$email]")
 
-    fun getCurrent() = getUserById(AuthUtils.getCurrentUser().getId())
+    fun getCurrent(): User = getUserById(AuthUtils.getCurrentUser().getId())
 }

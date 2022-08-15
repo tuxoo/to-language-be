@@ -18,7 +18,7 @@ application:
   api-path: ${API_PATH:/}
   hash-salt: ${HASH_SALT}
   jwt-signing-key: ${JWT_SIGNING_KEY}
-  access-token-ttl: ${TOKEN_TTL:15m}
+  access-token-ttl: ${TOKEN_TTL:30m}
   session:
     max: ${SESSION_MAX:3}
   cache:

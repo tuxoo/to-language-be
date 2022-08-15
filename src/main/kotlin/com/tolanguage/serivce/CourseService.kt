@@ -6,8 +6,6 @@ import com.tolanguage.model.entity.Course
 import com.tolanguage.model.exception.EntityNotFoundException
 import com.tolanguage.repository.CourseRepository
 import org.bson.types.ObjectId
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
@@ -41,8 +39,8 @@ class CourseService(
             )
         })
 
-    fun getPage(pageable: Pageable): Page<CourseSlimDto> =
-        courseRepository.findAll(pageable).map {
+    fun getCourses(): List<CourseSlimDto> =
+        courseRepository.findAll().map {
             toSlimDto(it)
         }
 
