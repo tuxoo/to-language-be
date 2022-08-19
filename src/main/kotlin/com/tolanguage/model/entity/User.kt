@@ -1,6 +1,5 @@
 package com.tolanguage.model.entity
 
-import com.tolanguage.model.enums.Language
 import com.tolanguage.model.enums.Role
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
@@ -16,7 +15,7 @@ data class User(
     val firstName: String,
     val lastName: String,
     val email: String,
-    val passwordHash: String,
+    val passwordHash: String? = null,
     val registeredAt: Instant = Instant.now(),
     val visitedAt: Instant = Instant.now(),
     val role: Role = Role.USER,

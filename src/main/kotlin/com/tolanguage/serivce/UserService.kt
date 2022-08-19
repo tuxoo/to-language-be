@@ -2,9 +2,10 @@ package com.tolanguage.serivce
 
 import com.github.benmanes.caffeine.cache.Cache
 import com.tolanguage.config.security.JwtProvider
+import com.tolanguage.model.dto.LoginResponse
 import com.tolanguage.model.dto.SignInDTO
 import com.tolanguage.model.dto.SignUpDTO
-import com.tolanguage.model.dto.TokenContainer
+import com.tolanguage.model.dto.UserDto
 import com.tolanguage.model.entity.User
 import com.tolanguage.model.exception.EntityNotFoundException
 import com.tolanguage.repository.UserRepository
@@ -20,7 +21,7 @@ class UserService(
     private val sessionService: SessionService
 ) {
 
-    fun signUp(signUpDTO: SignUpDTO): TokenContainer =
+    fun signUp(signUpDTO: SignUpDTO): LoginResponse =
         User(
             firstName = signUpDTO.firstName,
             lastName = signUpDTO.lastName,
@@ -34,7 +35,7 @@ class UserService(
             )
         }
 
-    fun signIn(signInDTO: SignInDTO): TokenContainer {
+    fun signIn(signInDTO: SignInDTO): LoginResponse {
         val user = userRepository.findByEmailAndPasswordHash(signInDTO.email, HashUtils.hashSHA1(signInDTO.password))
             ?: throw EntityNotFoundException("User not found by credentials [$signInDTO.email, ${signInDTO.password}]")
 
@@ -44,10 +45,18 @@ class UserService(
 
         userCache.put(user.id.toString(), user)
 
-        return TokenContainer(
-            accessToken,
-            refreshToken
-        )
+        return UserDto(
+            firstName = user.firstName,
+            lastName = user.lastName,
+            email = user.email,
+            registeredAt = user.registeredAt
+        ).run {
+            LoginResponse(
+                accessToken,
+                refreshToken,
+                this
+            )
+        }
     }
 
     fun getUserById(id: String): User =
