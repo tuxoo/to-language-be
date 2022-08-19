@@ -43,8 +43,6 @@ class UserService(
 
         val refreshToken = sessionService.createSession(user)
 
-        userCache.put(user.id.toString(), user)
-
         return UserDto(
             firstName = user.firstName,
             lastName = user.lastName,
