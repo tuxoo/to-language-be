@@ -24,7 +24,6 @@ class NoteService(
                     type = dto.type,
                     text = dto.text,
                     translation = dto.translation ?: "",
-                    addedAt = dto.addedAt,
                     course = this.course
                 )
             )

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/v1/enums")
+@RequestMapping("/v1/items")
 class EnumController {
 
     @ResponseStatus(HttpStatus.OK)
