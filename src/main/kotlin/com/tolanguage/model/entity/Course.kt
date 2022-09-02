@@ -15,6 +15,7 @@ data class Course(
     val language: Language,
     val description: String,
     val startedAt: Instant = Instant.now(),
+    val lastModifiedAt: Instant = Instant.now(),
 
     @DBRef
     val user: User

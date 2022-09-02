@@ -2,18 +2,19 @@ package com.tolanguage.serivce
 
 import com.tolanguage.model.dto.CourseFormDto
 import com.tolanguage.model.dto.CourseSlimDto
+import com.tolanguage.model.dto.ValueDto
 import com.tolanguage.model.entity.Course
 import com.tolanguage.model.exception.EntityNotFoundException
 import com.tolanguage.repository.CourseRepository
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
+import java.time.Instant
 
 @Service
 class CourseService(
     val courseRepository: CourseRepository,
     val userService: UserService
 ) {
-
     fun add(dto: CourseFormDto): Unit =
         userService.getCurrent()
             .run {
@@ -21,7 +22,7 @@ class CourseService(
                     Course(
                         language = dto.language,
                         description = dto.description,
-                        user = this
+                        user = this,
                     )
                 )
             }
@@ -34,6 +35,7 @@ class CourseService(
                     language = courseFormDto.language,
                     description = courseFormDto.description,
                     startedAt = courseFormDto.startedAt,
+                    lastModifiedAt = Instant.now(),
                     user = this.user
                 )
             )
@@ -50,6 +52,11 @@ class CourseService(
     fun getDtoById(id: String): CourseSlimDto = toSlimDto(getById(id))
 
     fun deleteById(id: String): Unit = courseRepository.deleteById(id)
+
+    fun calculateCourses(): ValueDto =
+        ValueDto(
+            value = courseRepository.findAll().size.toLong()
+        )
 
     fun toSlimDto(entity: Course): CourseSlimDto =
         CourseSlimDto(

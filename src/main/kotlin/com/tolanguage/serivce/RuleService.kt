@@ -48,6 +48,8 @@ class RuleService(
     fun getDtoById(id: String, courseId: String): RuleSlimDto =
         toSlimDto(getById(id, courseId))
 
+    fun calculateRules(courseId: String): Long = ruleRepository.findAllByCourseId(ObjectId(courseId)).size.toLong()
+
     private fun toSlimDto(entity: Rule): RuleSlimDto =
         RuleSlimDto(
             id = entity.id.toString(),

@@ -11,6 +11,7 @@ import com.tolanguage.model.exception.EntityNotFoundException
 import com.tolanguage.repository.UserRepository
 import com.tolanguage.util.AuthUtils
 import com.tolanguage.util.HashUtils
+import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
 
 @Service
@@ -59,7 +60,7 @@ class UserService(
 
     fun getUserById(id: String): User =
         userCache.get(id) {
-            userRepository.findOneById(id)
+            userRepository.findOneById(ObjectId(id))
                 ?: throw EntityNotFoundException("User not found by id [$id]")
         }
 

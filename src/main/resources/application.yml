@@ -1,6 +1,6 @@
 debug: ${SPRING_DEBUG:false}
 server:
-  port: 8080
+  port: ${APP_PORT:8080}
   forward-headers-strategy: framework
 spring:
   application:

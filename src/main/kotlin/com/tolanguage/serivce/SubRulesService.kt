@@ -26,6 +26,6 @@ class SubRulesService(
         SubRuleSlimDto(
             id = entity.id.toString(),
             text = entity.text,
-            addedAt = entity.addedAt
+            addedAt = entity.createdAt
         )
 }

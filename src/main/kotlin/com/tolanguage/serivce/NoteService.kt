@@ -9,6 +9,7 @@ import org.bson.types.ObjectId
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import java.time.Instant
 
 @Service
 class NoteService(
@@ -24,6 +25,8 @@ class NoteService(
                     type = dto.type,
                     text = dto.text,
                     translation = dto.translation ?: "",
+                    source = dto.source,
+                    lastModifiedAt = Instant.now(),
                     course = this.course
                 )
             )
@@ -37,7 +40,8 @@ class NoteService(
                         type = dto.type,
                         text = dto.text,
                         translation = dto.translation ?: "",
-                        course = this
+                        source = dto.source,
+                        course = this,
                     )
                 )
             }
@@ -55,6 +59,8 @@ class NoteService(
 
     fun deleteById(id: String, courseId: String): Unit =
         noteRepository.deleteByIdAndCourseId(ObjectId(id), ObjectId(courseId))
+
+    fun calculateNotes(courseId: String): Long = noteRepository.findAllByCourseId(ObjectId(courseId)).size.toLong()
 
     private fun toSlimDto(entity: Note): NoteSlimDto =
         NoteSlimDto(

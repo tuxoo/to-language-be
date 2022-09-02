@@ -12,7 +12,8 @@ data class SubRule(
     @Id
     val id: ObjectId = ObjectId.get(),
     val text: String,
-    val addedAt: Instant = Instant.now(),
+    val createdAt: Instant = Instant.now(),
+    val lastModifiedAt: Instant = Instant.now(),
 
     @DBRef
     val rule: Rule

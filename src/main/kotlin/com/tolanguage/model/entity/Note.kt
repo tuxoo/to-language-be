@@ -15,7 +15,9 @@ data class Note(
     val type: NoteType,
     val text: String,
     val translation: String,
+    val source: String,
     val addedAt: Instant = Instant.now(),
+    val lastModifiedAt: Instant = Instant.now(),
 
     @DBRef
     val course: Course
