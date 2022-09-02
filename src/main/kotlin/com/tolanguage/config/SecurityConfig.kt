@@ -19,7 +19,11 @@ class SecurityConfig(
 
     private val permittedUris = arrayOf(
         "/v1/users/sign-up",
-        "/v1/users/sign-in"
+        "/v1/users/sign-in",
+        "/**/swagger-ui/**",
+        "/**/v3/api-docs/**",
+        "/actuator/health",
+        "/**/swagger-ui.html"
     )
 
     @Bean

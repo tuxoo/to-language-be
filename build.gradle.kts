@@ -31,6 +31,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.11")
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     implementation("org.slf4j:slf4j-api:1.7.36")
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.1")
