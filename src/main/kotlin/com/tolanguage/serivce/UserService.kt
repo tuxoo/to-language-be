@@ -6,7 +6,9 @@ import com.tolanguage.model.dto.LoginResponse
 import com.tolanguage.model.dto.SignInDTO
 import com.tolanguage.model.dto.SignUpDTO
 import com.tolanguage.model.dto.UserDto
+import com.tolanguage.model.entity.Mail
 import com.tolanguage.model.entity.User
+import com.tolanguage.model.enums.MailTopic
 import com.tolanguage.model.exception.EntityNotFoundException
 import com.tolanguage.repository.UserRepository
 import com.tolanguage.util.AuthUtils
@@ -19,7 +21,8 @@ class UserService(
     private val userRepository: UserRepository,
     private val jwtProvider: JwtProvider,
     private val userCache: Cache<String, User>,
-    private val sessionService: SessionService
+    private val sessionService: SessionService,
+    private val mailService: MailService
 ) {
 
     fun signUp(signUpDTO: SignUpDTO): LoginResponse =
@@ -29,6 +32,10 @@ class UserService(
             email = signUpDTO.email,
             passwordHash = HashUtils.hashSHA1(signUpDTO.password)
         ).run {
+            mailService.send(Mail(
+                topic = MailTopic.REG_CONFIRM,
+                address = signUpDTO.email
+            ))
             userRepository.insert(this)
         }.run {
             signIn(
