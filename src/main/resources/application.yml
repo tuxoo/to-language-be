@@ -24,3 +24,8 @@ application:
   cache:
     user-maximum-size: 1000
     user-expired-time: 1h
+
+mail:
+  service:
+    host: localhost
+    port: 8088
