@@ -13,7 +13,8 @@ data class ApplicationProperty(
     val apiPath: String,
     val hashSalt: String,
     val jwtSigningKey: String,
-    val accessTokenTTL: Duration
+    val accessTokenTTL: Duration,
+    val refreshTokenTTL: Duration
 ) {
 
     @Bean

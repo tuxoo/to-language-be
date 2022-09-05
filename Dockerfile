@@ -4,9 +4,14 @@ WORKDIR /home/gradle/src
 RUN gradle bootJar
 
 FROM openjdk:17
+
 ENV ARTIFACT_NAME="tolanguage-0.0.1.jar"
 ENV APP_HOME=/home/gradle/src
+
+EXPOSE ${APP_PORT}
+
 WORKDIR $APP_HOME
 COPY --from=TEMP_BUILD_IMAGE /home/gradle/src/build/libs/$ARTIFACT_NAME .
+
 ENTRYPOINT ["java","-jar","tolanguage-0.0.1.jar"]
 

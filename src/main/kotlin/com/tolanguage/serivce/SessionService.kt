@@ -22,10 +22,10 @@ class SessionService(
                 sessionRepository.deleteAll(this)
             }
         }.run {
-            sessionRepository.insert(
+            sessionRepository.save(
                 Session(
                     user = user,
-                    expiresAt = Instant.now().plus(applicationProperty.accessTokenTTL)
+                    expiresAt = Instant.now().plus(applicationProperty.refreshTokenTTL)
                 )
             ).refreshToken
         }

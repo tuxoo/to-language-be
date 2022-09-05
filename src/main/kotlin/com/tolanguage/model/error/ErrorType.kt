@@ -10,7 +10,6 @@ enum class ErrorType(
     INTERNAL_ERROR(INTERNAL_SERVER_ERROR, "Internal server error"),
     AUTHORIZATION_ERROR(FORBIDDEN, "An error occurred during authorization"),
     AUTHENTICATION_ERROR(UNAUTHORIZED, "An error occurred during authentication"),
-    INVALID_CREDENTIALS_ERROR(BAD_REQUEST, "Invalid credentials had been entered"),
     OBJECT_NOT_FOUND_ERROR(NOT_FOUND, "Failed an attempt to get business entity has occurred"),
     VALIDATION_ERROR(BAD_REQUEST, "Request is empty or incorrect")
 }
